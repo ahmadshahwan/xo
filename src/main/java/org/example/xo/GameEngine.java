@@ -105,62 +105,40 @@ public class GameEngine {
         return this.findWinnerLine(i) || this.findWinnerColumn(j) || this.findWinnerDiagonal(i, j) || this.findWinnerAntidiagonal(i, j);
     }
 
-    private boolean findWinnerLine(int i) {
+    private boolean findWinner(Function<Integer, Coordinate> f) {
         List<Coordinate> winning = new ArrayList<>(this.size);
         for (int step = 0; step < this.size; step++) {
-            Coordinate coordinate = new Coordinate(i, step);
+            Coordinate coordinate = f.apply(step);
             if (this.at(coordinate) != this.currentPlayerMark) {
                 return false;
             }
             winning.add(coordinate);
         }
+
         this.winningCombination = winning;
         return true;
     }
 
+    private boolean findWinnerLine(int i) {
+        return this.findWinner(step -> new Coordinate(i, step));
+    }
+
     private boolean findWinnerColumn(int j) {
-        List<Coordinate> winning = new ArrayList<>(this.size);
-        for (int step = 0; step < this.size; step++) {
-            Coordinate coordinate = new Coordinate(step, j);
-            if (this.at(coordinate) != this.currentPlayerMark) {
-                return false;
-            }
-            winning.add(coordinate);
-        }
-        this.winningCombination = winning;
-        return true;
+        return this.findWinner(step -> new Coordinate(step, j));
     }
 
     private boolean findWinnerDiagonal(int i, int j) {
         if (i != j) {
             return false;
         }
-        List<Coordinate> winning = new ArrayList<>(this.size);
-        for (int step = 0; step < this.size; step++) {
-            Coordinate coordinate = new Coordinate(step, step);
-            if (this.at(coordinate) != this.currentPlayerMark) {
-                return false;
-            }
-            winning.add(coordinate);
-        }
-        this.winningCombination = winning;
-        return true;
+        return this.findWinner(step -> new Coordinate(step, step));
     }
 
     private boolean findWinnerAntidiagonal(int i, int j) {
         if (i != this.size - j - 1) {
             return false;
         }
-        List<Coordinate> winning = new ArrayList<>(this.size);
-        for (int step = 0; step < this.size; step++) {
-            Coordinate coordinate = new Coordinate(step, this.size - step -1);
-            if (this.at(coordinate) != this.currentPlayerMark) {
-                return false;
-            }
-            winning.add(coordinate);
-        }
-        this.winningCombination = winning;
-        return true;
+        return this.findWinner(step -> new Coordinate(step, this.size - step - 1));
     }
 
 
