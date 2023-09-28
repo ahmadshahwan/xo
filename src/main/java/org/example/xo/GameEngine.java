@@ -2,6 +2,7 @@ package org.example.xo;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Function;
 
 public class GameEngine {
 
@@ -48,6 +49,10 @@ public class GameEngine {
 
     public boolean isFull() {
         return this.remainingCells == 0;
+    }
+
+    public boolean hasWinner() {
+        return this.winningCombination != null;
     }
 
     /**

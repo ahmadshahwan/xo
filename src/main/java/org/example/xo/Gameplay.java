@@ -17,10 +17,10 @@ public abstract class Gameplay {
             this.engine.confirmMove();
             this.view.refresh();
         }
-        if (this.engine.isFull()) {
-            this.declareDraw();
-        } else {
+        if (this.engine.hasWinner()) {
             this.declareWinner();
+        } else {
+            this.declareDraw();
         }
     }
 
